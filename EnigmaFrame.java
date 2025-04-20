@@ -84,5 +84,55 @@ public class EnigmaFrame extends JFrame {
         textArea.add(outputPanel, BorderLayout.CENTER);
 
         this.add(textArea, BorderLayout.CENTER);
+
+        encryptButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                process("encrypt");
+            }
+        });
+        
+        decryptButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                process("decrypt");
+            }
+        });
+    }
+
+    private void process(String operation) {
+        int innerRotor = (Integer)innerRotorComboBox.getSelectedItem();
+        int middleRotor = (Integer)innerRotorComboBox.getSelectedItem();
+        int outerRotor = (Integer)innerRotorComboBox.getSelectedItem();
+
+        String initialPositions = initialPosField.getText();
+
+        if (initialPositions.length() < 3) {
+            JOptionPane.showMessageDialog(this, "initial positions should make sense!! at least 3 characters", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //get input
+        String inputString = inputText.getText();
+        if (inputString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter text ", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // create enigma with selected settings
+        try {
+            Enigma enigma = new Enigma(innerRotor, middleRotor, outerRotor, initialPositions);
+
+            String result;
+            if (operation.equals("encrypt")) {
+                result = enigma.encrypt(inputString);
+            } else {
+                result = enigma.decrypt(inputString);
+            }
+
+            outputText.setText(result);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "something went wrong", "operation failed", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 }
