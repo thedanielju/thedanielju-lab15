@@ -12,6 +12,9 @@ public class EnigmaFrame extends JFrame {
     private JButton encryptButton;
     private JButton decryptButton;
 
+    private JTextArea inputText;
+    private JTextArea outputText;
+
     public EnigmaFrame(int id) {
         this.id = id;
         this.setTitle("Enigma GUI"); //set title
@@ -34,7 +37,11 @@ public class EnigmaFrame extends JFrame {
 
         // initial positions
         JLabel positionsLabel = new JLabel("Initial Positions");
-        initialPosField = new JTextField("...", 5);
+        initialPosField = new JTextField("EST", 5);
+
+        // oops forgot encrypt decrypt buttons
+        encryptButton = new JButton("Encrypt");
+        decryptButton = new JButton("Decrypt");
 
         // add all components
         panel.add(innerLabel);
@@ -45,14 +52,37 @@ public class EnigmaFrame extends JFrame {
         panel.add(outRotorComboBox);
         panel.add(positionsLabel);
         panel.add(initialPosField);
+        panel.add(encryptButton);
+        panel.add(decryptButton);
 
         // add control panel to frame
         this.add(panel, BorderLayout.NORTH);
 
-    }
+        // text areas panel
+        JPanel textArea = new JPanel();
+        textArea.setLayout(new BorderLayout());
 
-    public static void main(String[] args) {
-        EnigmaFrame frame = new EnigmaFrame(1);
-        frame.setVisible(true);
+        // text input
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        JLabel inputLabel = new JLabel("Input");
+        inputText = new JTextArea(10, 40); //shows 10 lines of text w/out scrolling, 40 characters per line
+        inputText.setLineWrap(true);
+        JScrollPane inputScroll = new JScrollPane(inputText);
+        inputPanel.add(inputLabel, BorderLayout.NORTH);
+        inputPanel.add(inputScroll, BorderLayout.CENTER);
+
+        // text output
+        JPanel outputPanel = new JPanel(new BorderLayout());
+        JLabel outputLabel = new JLabel("Output");
+        outputText = new JTextArea(10, 40);
+        outputText.setLineWrap(true);
+        JScrollPane outputScroll = new JScrollPane(outputText);
+        outputPanel.add(outputLabel, BorderLayout.NORTH);
+        outputPanel.add(outputScroll, BorderLayout.CENTER);
+
+        textArea.add(inputPanel, BorderLayout.NORTH);
+        textArea.add(outputPanel, BorderLayout.CENTER);
+
+        this.add(textArea, BorderLayout.CENTER);
     }
 }
