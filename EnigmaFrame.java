@@ -1,6 +1,6 @@
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class EnigmaFrame extends JFrame {
     private int id;
@@ -15,6 +15,12 @@ public class EnigmaFrame extends JFrame {
 
     private JTextArea inputText;
     private JTextArea outputText;
+
+    private void applyFunnyText(JComponent component) {
+        Font comicSans = new Font("Comic Sans MS", Font.BOLD, 14);
+        component.setFont(comicSans);
+        component.setForeground(new Color(225,105,180));
+    }
 
     public EnigmaFrame(int id) {
         this.id = id;
@@ -44,6 +50,15 @@ public class EnigmaFrame extends JFrame {
         encryptButton = new JButton("Encrypt");
         decryptButton = new JButton("Decrypt");
 
+        // lol
+        applyFunnyText(innerLabel);
+        applyFunnyText(middleLabel);
+        applyFunnyText(outLabel);
+        applyFunnyText(positionsLabel);
+        applyFunnyText(initialPosField);
+        applyFunnyText(encryptButton);
+        applyFunnyText(decryptButton);
+
         // add all components
         panel.add(innerLabel);
         panel.add(innerRotorComboBox);
@@ -67,7 +82,12 @@ public class EnigmaFrame extends JFrame {
         JPanel inputPanel = new JPanel(new BorderLayout());
         JLabel inputLabel = new JLabel("Input");
         inputText = new JTextArea(1, 40); //change: one line allowed only (no annoying enter errors), 40 characters per line
+        
+        // just for fun
+        applyFunnyText(inputText);
+
         inputText.setLineWrap(true);
+
         JScrollPane inputScroll = new JScrollPane(inputText);
         inputPanel.add(inputLabel, BorderLayout.NORTH);
         inputPanel.add(inputScroll, BorderLayout.CENTER);
@@ -75,14 +95,21 @@ public class EnigmaFrame extends JFrame {
         // text output
         JPanel outputPanel = new JPanel(new BorderLayout());
         JLabel outputLabel = new JLabel("Output");
-        outputText = new JTextArea(10, 40);
+        outputText = new JTextArea(1, 40); //just one line for uniformity 
+        
+        applyFunnyText(outputText);
+
         outputText.setLineWrap(true);
+        outputText.setRows(1);
+        outputText.setEditable(false);
         JScrollPane outputScroll = new JScrollPane(outputText);
         outputPanel.add(outputLabel, BorderLayout.NORTH);
         outputPanel.add(outputScroll, BorderLayout.CENTER);
 
         textArea.add(inputPanel, BorderLayout.NORTH);
         textArea.add(outputPanel, BorderLayout.CENTER);
+
+        applyFunnyText(initialPosField);
 
         this.add(textArea, BorderLayout.CENTER);
 
