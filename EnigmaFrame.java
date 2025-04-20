@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class EnigmaFrame extends JFrame {
     private int id;
@@ -37,7 +38,7 @@ public class EnigmaFrame extends JFrame {
 
         // initial positions
         JLabel positionsLabel = new JLabel("Initial Positions");
-        initialPosField = new JTextField("EST", 5);
+        initialPosField = new JTextField("", 5);
 
         // oops forgot encrypt decrypt buttons
         encryptButton = new JButton("Encrypt");
@@ -65,7 +66,7 @@ public class EnigmaFrame extends JFrame {
         // text input
         JPanel inputPanel = new JPanel(new BorderLayout());
         JLabel inputLabel = new JLabel("Input");
-        inputText = new JTextArea(10, 40); //shows 10 lines of text w/out scrolling, 40 characters per line
+        inputText = new JTextArea(1, 40); //change: one line allowed only (no annoying enter errors), 40 characters per line
         inputText.setLineWrap(true);
         JScrollPane inputScroll = new JScrollPane(inputText);
         inputPanel.add(inputLabel, BorderLayout.NORTH);
@@ -86,12 +87,14 @@ public class EnigmaFrame extends JFrame {
         this.add(textArea, BorderLayout.CENTER);
 
         encryptButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 process("encrypt");
             }
         });
         
         decryptButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 process("decrypt");
             }
@@ -100,13 +103,13 @@ public class EnigmaFrame extends JFrame {
 
     private void process(String operation) {
         int innerRotor = (Integer)innerRotorComboBox.getSelectedItem();
-        int middleRotor = (Integer)innerRotorComboBox.getSelectedItem();
-        int outerRotor = (Integer)innerRotorComboBox.getSelectedItem();
+        int middleRotor = (Integer)middleRotorComboBox.getSelectedItem();
+        int outerRotor = (Integer)outRotorComboBox.getSelectedItem();
 
         String initialPositions = initialPosField.getText();
 
         if (initialPositions.length() < 3) {
-            JOptionPane.showMessageDialog(this, "initial positions should make sense!! at least 3 characters", "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "initial positions should make sense!! enter exactly 3 characters without quotations", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
